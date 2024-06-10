@@ -80,8 +80,10 @@ class PostProcessor:
         """
 
         page.text = (str)(prev_sentence + page.text + next_sentence)
-        cleaned_segment = self._simple_clean(page.text)
-        page.text = cleaned_segment
+        # TODO: Find out when this is necessary
+        # cleaned_segment = self._simple_clean(page.text)
+        # page.text = cleaned_segment
+        
 
         return page
 
