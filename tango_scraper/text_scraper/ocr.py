@@ -9,10 +9,7 @@ from flashcards.text_scraper.pipeline import create_pipeline, Pipeline
 
 
 class OCR:
-    def __init__(self, file: InMemoryUploadedFile):
-        self.file: InMemoryUploadedFile = file
-        self.image = None
-        self.page_data: list[Page] = []
+    
 
     def _preprocess(self, image: Image) -> Image:
         """
