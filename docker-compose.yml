@@ -1,0 +1,11 @@
+services:
+  tango-scraper:
+    build:
+      context: ./tango_scraper
+    container_name: scraper 
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./tango_scraper:/code
+    ports:
+      - "8000:8000"
+    
