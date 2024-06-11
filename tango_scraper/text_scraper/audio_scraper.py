@@ -79,8 +79,10 @@ class AudioScraper():
                 text = self.transcribe_audio(audio_data, language)
                 
                 data.append(Page(text, index + 1, file.name))
-                
+        #os.remove(folder_name) # skummelt
         return data
+    
+    
 
         
    

@@ -3,7 +3,6 @@
 from data_format import Page
 
 
-
 class PostProcessor:
 
     def page_post_processing(self, pages: list[Page]) -> list[Page]:

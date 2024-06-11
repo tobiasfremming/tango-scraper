@@ -11,6 +11,7 @@ from text_scraper.text_reader import TextReader
 from text_scraper.post_processing import PostProcessor
 from text_scraper.ocr import OCR
 from text_scraper.audio_scraper import AudioScraper
+from text_scraper.video_scraper import VideoScraper
 from abc import ABC, abstractmethod
 
 class Strategy(ABC):
@@ -48,6 +49,19 @@ class ReadDocStrategy(Strategy):
 class AudioStrategy(Strategy):
     def execute(self, file: InMemoryUploadedFile) -> list[Page]:
         print("Extracting text from Sound file")
+        return AudioScraper.speech_to_text(file)
+    
+class VideoStrategy(Strategy):
+    def execute(self, file: InMemoryUploadedFile) -> list[Page]:
+        print("Extracting text from Video file")
+        file = VideoScraper.extract_audio_file_from_youtube(file.field_name) # man må bare sende inn en ikkeeksisterende fil med url som navn, eller noe sånt
+        return AudioScraper.speech_to_text(file)
+    
+    # er dette lov? #######################################
+class VideoStrategy2(Strategy):
+    def execute(self, url: str) -> list[Page]:
+        print("Extracting text from Video file")
+        file = VideoScraper.extract_audio_file_from_youtube(url) 
         return AudioScraper.speech_to_text(file)
         
 class EpubStrategy(Strategy):
@@ -87,7 +101,15 @@ class StrategyFactory:
                 return URLStrategy()
             case _:
                 return OCRStrategy()
-            
+
+    def getStrategyFromURL(self, url: str) -> Strategy:
+        """Choose the correct strategy based on the file extension and readability of the file.
+        Args:
+            url (str): The url to extract text from.
+        Returns:
+            Strategy: The strategy to use for extracting text from the file. 
+        """
+        return VideoStrategy2()           
             
     def _isReadable(self, file: InMemoryUploadedFile) -> bool:
         """
