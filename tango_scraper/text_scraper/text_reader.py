@@ -1,7 +1,8 @@
 import fitz
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
-from flashcards.learning_resources import Page
+from data_format import Page
+
 
 
 class TextReader:

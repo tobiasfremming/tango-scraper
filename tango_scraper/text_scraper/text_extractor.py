@@ -1,11 +1,11 @@
 import random
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
-from flashcards.learning_resources import Page
-from flashcards.text_scraper.doc_reader import DocReader
-from flashcards.text_scraper.text_reader import TextReader
-from flashcards.text_scraper.post_processing import PostProcessor
-from flashcards.text_scraper.ocr import OCR
+from data_format import Page
+from text_scraper.doc_reader import DocReader
+from text_scraper.text_reader import TextReader
+from text_scraper.post_processing import PostProcessor
+from text_scraper.ocr import OCR
 from abc import ABC, abstractmethod
 
 class Strategy(ABC):

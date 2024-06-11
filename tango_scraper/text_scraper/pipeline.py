@@ -1,6 +1,6 @@
 import PIL.Image as Image
 
-from flashcards.text_scraper.image_filter import (
+from text_scraper.image_filter import (
     Filter,
     remove_borders,
     deskew,

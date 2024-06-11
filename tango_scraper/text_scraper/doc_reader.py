@@ -1,7 +1,7 @@
 from docx import Document
 import os
 
-from flashcards.learning_resources import Page
+from data_format import Page
 
 
 class DocReader:

@@ -3,9 +3,10 @@ from PIL.Image import Image
 from django.core.files.uploadedfile import InMemoryUploadedFile
 import pypdfium2 as pdfium
 from pypdfium2 import PdfPage
+from data_format import Page
 
-from flashcards.learning_resources import Page
-from flashcards.text_scraper.pipeline import create_pipeline, Pipeline
+
+from text_scraper.pipeline import create_pipeline, Pipeline
 
 
 class OCR:
