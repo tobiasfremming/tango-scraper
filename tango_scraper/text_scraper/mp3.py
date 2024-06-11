@@ -9,11 +9,15 @@ from data_format import Page
 from io import BytesIO
 
 
-class MP3TextScraper(TextScraper):
+class MP3TextScraper():
     
     def convertToWav(file: InMemoryUploadedFile) -> InMemoryUploadedFile:
         """
         Converts the input audio file to WAV format if necessary and returns the InMemoryUploadedFile of the WAV file.
+        Args:
+            file: The file to convert
+        Returns:
+            InMemoryUploadedFile: The converted file
         """
         file_ext = os.path.splitext(file.name)[1]
         
@@ -32,6 +36,10 @@ class MP3TextScraper(TextScraper):
     def transcribe_audio(audio_data, language = "en-US") -> str:
         """
         Transcribes audio data to text using Google's speech recognition API.
+        Args:
+            file: audio_data; the audio data to transcribe
+        Returns:
+            str: The transcribed text
         """
         r = sr.Recognizer()
         try:
@@ -44,7 +52,11 @@ class MP3TextScraper(TextScraper):
     
     def speech_to_text(self, file: InMemoryUploadedFile) -> list[Page]:
         """
-        Transcribes an audio file at the given path to text and writes the transcribed text to the output file.
+        Transcribes an audio file to text.
+        Args:
+            file: The file to transcribe
+        Returns:
+            list[Page]: The converted file
         """
         file = self.convertToWav(file)
         folder_name = "audio-chunks"
