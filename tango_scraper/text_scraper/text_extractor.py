@@ -11,10 +11,8 @@ from text_scraper.ocr import OCR
 from abc import ABC, abstractmethod
 
 class TextExtractor:
-    def __init__(self):
-        self.reader: TextReader = TextReader()
-        self.post_processor: PostProcessor = PostProcessor()
-
+    
+    
     def extractData(self, file: InMemoryUploadedFile) -> list[Page]:
         """Decides whether to extract text from a PDF file or an image file, and extracts the text using the appropriate method. Then the extracted text is post-processed.
 
@@ -43,14 +41,14 @@ class TextExtractor:
                 doc_reader = DocReader()
                 pages = doc_reader.get_text_from_doc_or_docx(file)
                 
-                data = self.post_processor.page_post_processing(pages)
+                data = PostProcessor.page_post_processing(pages)
                 return data
             
             case "png" | "jpg" | "jpeg" | "ppm" | "tiff" | "bmp":
                 print("Extracting text from image file")
                 pages.extend(self._extractTextImage(file))
                 
-                data = self.post_processor.page_post_processing(pages)
+                data = PostProcessor.page_post_processing(pages)
                 return data
     
             case _:
