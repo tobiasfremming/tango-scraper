@@ -35,9 +35,7 @@ class ReadPDFStrategy(Strategy):
     
 class OCRStrategy(Strategy):
     def execute(self, file: InMemoryUploadedFile) -> list[Page]:
-        
         print("Extracting text from image file")
-        
         ocr: OCR = OCR(file)
         ocr.ocr_images(file)
         page_data = ocr.get_page_data()
@@ -45,13 +43,12 @@ class OCRStrategy(Strategy):
     
 class ReadDocStrategy(Strategy):
     def execute(self, file: InMemoryUploadedFile) -> list[Page]:
-        # TODO: implement the correct logic
         print("Extracting text from Word document")
-        return []
+        return DocReader.get_text_from_doc_or_docx(file) 
+      
         
 class SoundStrategy(Strategy):
     def execute(self, file: InMemoryUploadedFile) -> list[Page]:
-        
         print("Extracting text from Sound file")
         return SoundScraper.speech_to_text(file)
         
