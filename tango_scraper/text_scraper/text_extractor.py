@@ -16,44 +16,48 @@ class Strategy(ABC):
     
     
 class ReadPDFStrategy(Strategy):
+    
     def __call__(self, file: InMemoryUploadedFile) -> list[Page]:
         # TODO: implement the correct logic
         print("Extracting text from PDF file")
         reader: TextReader = TextReader()
         post_processor: PostProcessor = PostProcessor()
         pages: list[Page] = []
-        if reader.isReadable(file):
-            pages.extend(reader.read(file))
-        else:
-            ocr: OCR = OCR(file)
-            ocr.ocr_images(file)
-            pages = ocr.get_page_data()
+        
+        pages.extend(reader.read(file))
         data = post_processor.page_post_processing(pages)
         return data
+    
     
 class OCRStrategy(Strategy):
     def __call__(self, file: InMemoryUploadedFile) -> list[Page]:
         # TODO: implement the correct logic
+        print("Extracting text from image file")
+        
         return []
     
 class ReadDocStrategy(Strategy):
     def __call__(self, file: InMemoryUploadedFile) -> list[Page]:
         # TODO: implement the correct logic
+        print("Extracting text from Word document")
         return []
         
 class Mp3Strategy(Strategy):
     def __call__(self, file: InMemoryUploadedFile) -> list[Page]:
         # TODO: implement the correct logic
+        print("Extracting text from MP3 file")
         return []
         
 class EpubStrategy(Strategy):
     def __call__(self, file: InMemoryUploadedFile) -> list[Page]:
         # TODO: implement the correct logic
+        print("Extracting text from EPUB file")
         return []
         
 class URLStrategy(Strategy):
     def __call__(self, file: InMemoryUploadedFile) -> list[Page]:
         # TODO: implement the correct logic
+        print("Extracting text from URL")
         return []
     
     
