@@ -11,7 +11,6 @@ from text_scraper.pipeline import create_pipeline, Pipeline
 
 class OCR:
     
-
     def _preprocess(self, image: Image) -> Image:
         """
         preprocesses the image without changing it's size or shape,
@@ -23,7 +22,7 @@ class OCR:
         pipeline: Pipeline = create_pipeline(image)
         return pipeline.apply_filters(image)
 
-    def make_pdf_into_image_list(self, file: InMemoryUploadedFile) -> list[Image]:
+    def _make_pdf_into_image_list(self, file: InMemoryUploadedFile) -> list[Image]:
         """
         Converts a file into an image. The file can be in any format that can be converted into an image.
 
@@ -32,9 +31,7 @@ class OCR:
         Returns:
             List of image names for the given files' pages
         """
-
         pdf = pdfium.PdfDocument(file)
-
         n_pages = len(pdf)
         pages_as_images = []
         resolution = 300
@@ -50,7 +47,7 @@ class OCR:
             pages_as_images.append(pil_image)
         return pages_as_images
 
-    def make_pillow_image(self, file: InMemoryUploadedFile) -> list[Image]:
+    def _make_pillow_image(self, file: InMemoryUploadedFile) -> list[Image]:
         """
         Converts a file into an image. The file can be in any format that can be converted into an image.
 
@@ -63,26 +60,26 @@ class OCR:
             images.append(image)
         return images
 
-    def ocr_images(self, file: InMemoryUploadedFile):
+    def ocr_images(self, file: InMemoryUploadedFile) -> list[Page]:
         """
         take in pdf file, and calls a function that creates a list of images from the pdf file, then uses OCR to extract text from the images
         params: file: InMemoryUploadedFile
         """
-        # Prepare images
+        data: list[Page] = []
         images: list[Image] = []
+        
         if file.name.endswith(".pdf"):
-            images = self.make_pdf_into_image_list(file)
+            images = self._make_pdf_into_image_list(file)
         else:
-            images = self.make_pillow_image(file)
+            images = self._make_pillow_image(file)
 
-        # Retrieve text from images
         for index, image in enumerate(images):
             # TODO: self.preprocess()
-            print("OCR-ing image-------------------------------------")
             text = pytesseract.image_to_string(image)
             page = Page(text, index + 1, file.name)
-            self.page_data.append(page)
-            print(page.text)
+            data.append(page)
+        
+        return data
 
     def ocr_page(self, pdf_file, page_num) -> str:
         """
@@ -98,5 +95,3 @@ class OCR:
         text: str = pytesseract.image_to_string(image)
         return text
 
-    def get_page_data(self):
-        return self.page_data

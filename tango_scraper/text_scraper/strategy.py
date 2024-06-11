@@ -27,26 +27,21 @@ class Strategy(ABC):
     
     
 class ReadPDFStrategy(Strategy):
-    
     def execute(self, file: InMemoryUploadedFile) -> list[Page]:
-        # TODO: implement the correct logic
         print("Extracting text from PDF file")
-        reader: TextReader = TextReader()
-        post_processor: PostProcessor = PostProcessor()
-        pages: list[Page] = []
+        return TextReader.read(file)
         
-        pages.extend(reader.read(file))
-        data = post_processor.page_post_processing(pages)
-        
-        return data
     
     
 class OCRStrategy(Strategy):
     def execute(self, file: InMemoryUploadedFile) -> list[Page]:
-        # TODO: implement the correct logic
+        
         print("Extracting text from image file")
         
-        return []
+        ocr: OCR = OCR(file)
+        ocr.ocr_images(file)
+        page_data = ocr.get_page_data()
+        return page_data
     
 class ReadDocStrategy(Strategy):
     def execute(self, file: InMemoryUploadedFile) -> list[Page]:
@@ -81,7 +76,6 @@ class StrategyFactory:
         Returns:
             Strategy: The strategy to use for extracting text from the file. 
         """
-        
         file_extension = file.name.split(".")[-1].lower()
         match file_extension:
             case "pdf":
@@ -103,32 +97,35 @@ class StrategyFactory:
     def _isReadable(self, file: InMemoryUploadedFile) -> bool:
         """
         Checks if a PDF file is easily readable by attempting to extract text directly from it.
-
         This method does not guarantee OCR accuracy but checks if the PDF contains selectable text,
         which is a good indicator of the document's readability without needing image conversion.
-
         Args:
             file: The PDF file to check.
-
         Returns:
             True if the file is easily readable (contains a significant amount of selectable text),
             False otherwise.
         """
-
         total_pages = TextReader.get_amount_of_pages(file)
         fast_text = ""
         ocr_text = ""
-        ocr = OCR(file)
-
         # Look random pages and see if there is a large disparity
         for _ in range(3):  # TODO: change to 3 with log2(total_pages1)
             page_number = random.randint(0, total_pages - 1)
             fast_text += TextReader.read_page(file, page_number)
-            ocr_text += ocr.ocr_page(file, page_number)
+            ocr_text += OCR.ocr_page(file, page_number)
 
         if len(ocr_text) == 0:
-            return True  # TODO: lag feilmelding
+            print("OCR failed to extract text. Nothing to extract.")
+            return False
         if len(fast_text) / len(ocr_text) > 0.88:
             return True
         return False
+        
+        
+        
+        
+        
+        
+        
+        
         
