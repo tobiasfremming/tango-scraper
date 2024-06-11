@@ -13,7 +13,7 @@ from text_scraper.strategy import StrategyFactory, Strategy
 
 class Scraper:
     
-    def extract(self, file: InMemoryUploadedFile) -> list[Page]:
+    def extract(self, file: InMemoryUploadedFile, post_process: bool) -> list[Page]:
         """Decides how to extract, and extracts the text using the appropriate method. Then the extracted text is post-processed.
 
         Args:
@@ -26,6 +26,22 @@ class Scraper:
         file_extension = file.name.split(".")[-1].lower()
         
         strategy: Strategy = StrategyFactory().get_strategy(file_extension)
+        pages.extend(strategy.execute(file))
+        if post_process:
+            pages = PostProcessor().page_post_processing(pages)
+            
+        return pages  
+    
+    def extract(self, file: InMemoryUploadedFile) -> list[Page]:
+        """Decides how to extract, and extracts the text using the appropriate method. 
+
+        Args:
+            file (InMemoryUploadedFile): the file to extract text from.
+
+        Returns:
+            list[Page]: Page: text, page number and book name.
+        """  
+        return self.extract(file, False)
         
         
 
