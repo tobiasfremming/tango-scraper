@@ -17,6 +17,12 @@ class Strategy(ABC):
     
     @abstractmethod
     def execute(self, file: InMemoryUploadedFile) -> list[Page]:
+        """executes the strategy to extract text from the file.
+        Args:
+            file (InMemoryUploadedFile): the file to extract text from.
+        Returns:
+            list[Page]: the extracted text from the file.
+        """
         pass
     
     
@@ -69,6 +75,13 @@ class URLStrategy(Strategy):
     
 class StrategyFactory:
     def get_strategy(self, file: InMemoryUploadedFile) -> Strategy:
+        """Choose the correct strategy based on the file extension and readability of the file.
+        Args:
+            file (InMemoryUploadedFile): The file to extract text from.
+        Returns:
+            Strategy: The strategy to use for extracting text from the file. 
+        """
+        
         file_extension = file.name.split(".")[-1].lower()
         match file_extension:
             case "pdf":
