@@ -97,7 +97,7 @@ class TextExtractor:
             False otherwise.
         """
 
-        total_pages = self.reader.get_amount_of_pages(file)
+        total_pages = TextReader.get_amount_of_pages(file)
         fast_text = ""
         ocr_text = ""
         ocr = OCR(file)
@@ -105,7 +105,7 @@ class TextExtractor:
         # Look random pages and see if there is a large disparity
         for _ in range(3):  # TODO: change to 3 with log2(total_pages1)
             page_number = random.randint(0, total_pages - 1)
-            fast_text += self.reader.read_page(file, page_number)
+            fast_text += TextReader.read_page(file, page_number)
             ocr_text += ocr.ocr_page(file, page_number)
 
         if len(ocr_text) == 0:
