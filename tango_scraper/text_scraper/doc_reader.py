@@ -7,7 +7,10 @@ from data_format import Page
 class DocReader:
 
     def get_text_from_docx(self, file):
-        """Extract text from a DOCX file."""
+        """Extract text from a DOCX file.
+            args: file
+            returns: pages
+        """
         print("Extracting text from DOCX file")
         document = Document(file)
         pages: list[Page] = []
@@ -24,10 +27,10 @@ class DocReader:
             return "This file is not a valid DOC file. Please convert to DOCX format before processing."
         return self.get_text_from_docx(file)
 
-    def extract_text_from_docx(self, uploaded_file):
+    def extract_text_from_docx(self, file):
         """Extract text from a DOCX file."""
-        if uploaded_file.name.endswith(".docx"):
-            document = Document(uploaded_file)
+        if file.name.endswith(".docx"):
+            document = Document(file)
             pages: list[Page] = []
             for i, para in enumerate(document.paragraphs):
                 pages.append(
