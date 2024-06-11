@@ -9,7 +9,7 @@ from data_format import Page
 from io import BytesIO
 
 
-class SoundScraper():
+class AudioScraper():
     
     def convertToWav(file: InMemoryUploadedFile) -> InMemoryUploadedFile:
         """

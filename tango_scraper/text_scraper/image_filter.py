@@ -119,13 +119,9 @@ class Thick_font(Filter):
 
 class remove_borders(Filter):
     """Remove borders, callable
-
-    Args:
-         image
-    Returns:
-        image
+    Args: image
+    Returns: image
     """
-
     def __call__(self, image):
         contours, hierarchy = cv2.findContours(
             image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
@@ -139,13 +135,9 @@ class remove_borders(Filter):
 
 class add_borders(Filter):
     """add boarders, callable
-
-    Args:
-         image
-    Returns:
-        image
+    Args: image
+    Returns: image
     """
-
     def __call__(self, image):
         color = [255, 255, 255]
         top, bottom, left, right = [150] * 4

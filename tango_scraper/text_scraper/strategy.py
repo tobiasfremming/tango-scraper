@@ -10,7 +10,7 @@ from text_scraper.doc_reader import DocReader
 from text_scraper.text_reader import TextReader
 from text_scraper.post_processing import PostProcessor
 from text_scraper.ocr import OCR
-from text_scraper.soundScraper import SoundScraper
+from text_scraper.audio_scraper import AudioScraper
 from abc import ABC, abstractmethod
 
 class Strategy(ABC):
@@ -36,10 +36,8 @@ class ReadPDFStrategy(Strategy):
 class OCRStrategy(Strategy):
     def execute(self, file: InMemoryUploadedFile) -> list[Page]:
         print("Extracting text from image file")
-        ocr: OCR = OCR(file)
-        ocr.ocr_images(file)
-        page_data = ocr.get_page_data()
-        return page_data
+        return OCR.ocr_images(file)
+    
     
 class ReadDocStrategy(Strategy):
     def execute(self, file: InMemoryUploadedFile) -> list[Page]:
@@ -47,10 +45,10 @@ class ReadDocStrategy(Strategy):
         return DocReader.get_text_from_doc_or_docx(file) 
       
         
-class SoundStrategy(Strategy):
+class AudioStrategy(Strategy):
     def execute(self, file: InMemoryUploadedFile) -> list[Page]:
         print("Extracting text from Sound file")
-        return SoundScraper.speech_to_text(file)
+        return AudioScraper.speech_to_text(file)
         
 class EpubStrategy(Strategy):
     def execute(self, file: InMemoryUploadedFile) -> list[Page]:
@@ -82,7 +80,7 @@ class StrategyFactory:
             case "doc" | "docx":
                 return ReadDocStrategy()
             case "mp3"| "wav" | "flac" | "ogg" | "m4a":
-                return SoundStrategy()
+                return AudioStrategy()
             case "epub":
                 return EpubStrategy()
             case "url":
