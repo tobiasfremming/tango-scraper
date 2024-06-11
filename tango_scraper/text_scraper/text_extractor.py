@@ -55,6 +55,26 @@ class URLStrategy(Strategy):
     def __call__(self, file: InMemoryUploadedFile) -> list[Page]:
         # TODO: implement the correct logic
         return []
+    
+    
+class StrategyFactory:
+    def get_strategy(self, file: InMemoryUploadedFile) -> Strategy:
+        file_extension = file.name.split(".")[-1].lower()
+        match file_extension:
+            case "pdf":
+                if self._isReadable(file):
+                    return ReadPDFStrategy()
+                return OCRStrategy()
+            case "doc" | "docx":
+                return ReadDocStrategy()
+            case "mp3":
+                return Mp3Strategy()
+            case "epub":
+                return EpubStrategy()
+            case "url":
+                return URLStrategy()
+            case _:
+                return OCRStrategy()
         
 
 
