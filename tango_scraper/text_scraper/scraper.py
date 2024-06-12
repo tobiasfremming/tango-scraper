@@ -1,13 +1,7 @@
-import random
 from django.core.files.uploadedfile import InMemoryUploadedFile
-
 from data_format import Page
-from text_scraper.doc_reader import DocReader
-from text_scraper.text_reader import TextReader
-from text_scraper.post_processing import PostProcessor
-from text_scraper.ocr import OCR
-from abc import ABC, abstractmethod
-from text_scraper.strategy import StrategyFactory, Strategy
+from post_processing import PostProcessor
+from strategy import StrategyFactory, Strategy
 
 
 
@@ -27,6 +21,7 @@ class Scraper:
         
         strategy: Strategy = StrategyFactory().get_strategy(file_extension)
         pages.extend(strategy.execute(file))
+        # delete possible temp file after use
         if post_process:
             pages = PostProcessor().page_post_processing(pages)
             
@@ -51,7 +46,20 @@ class Scraper:
 
 
 
+if __name__ == '__main__':
 
+    print("hei")
+
+    url = "https://www.youtube.com/watch?v=6JYIGclVQdw"
+    print("hei2")
+    file = InMemoryUploadedFile(url, None, None, None, None, None)
+    print("hei3")
+    scraper = Scraper()
+    print("hei4")
+    text: list[Page] = scraper.extract(file)
+    print("hei5")
+    print(text[0].text)
+    
 
 
 

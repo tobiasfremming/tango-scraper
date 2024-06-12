@@ -6,12 +6,11 @@ import random
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from data_format import Page
-from text_scraper.doc_reader import DocReader
-from text_scraper.text_reader import TextReader
-from text_scraper.post_processing import PostProcessor
-from text_scraper.ocr import OCR
-from text_scraper.audio_scraper import AudioScraper
-from text_scraper.video_scraper import VideoScraper
+from doc_reader import DocReader
+from text_reader import TextReader
+from ocr import OCR
+from audio_scraper import AudioScraper
+from video_scraper import VideoScraper
 from abc import ABC, abstractmethod
 
 class Strategy(ABC):
@@ -141,7 +140,18 @@ class StrategyFactory:
         
         
         
-        
+# # if main
+# if __name__ == "__main__":
+#     # file = InMemoryUploadedFile()
+#     factory = StrategyFactory()
+#     # strategy = factory.get_strategy(file)
+#     # pages = strategy.execute(file)
+#     # print(pages)
+    
+#     url = "https://www.youtube.com/watch?v=8Zx6RXGNISk"
+#     strategy = factory.getStrategyFromURL(url)
+#     pages = strategy.execute(url)
+#     print(pages)
         
         
         

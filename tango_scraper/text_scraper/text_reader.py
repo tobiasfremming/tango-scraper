@@ -1,4 +1,5 @@
-import fitz
+
+from fitz import *
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from data_format import Page
