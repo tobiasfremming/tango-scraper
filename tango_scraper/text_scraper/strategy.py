@@ -140,18 +140,7 @@ class StrategyFactory:
         
         
         
-# # if main
-# if __name__ == "__main__":
-#     # file = InMemoryUploadedFile()
-#     factory = StrategyFactory()
-#     # strategy = factory.get_strategy(file)
-#     # pages = strategy.execute(file)
-#     # print(pages)
-    
-#     url = "https://www.youtube.com/watch?v=8Zx6RXGNISk"
-#     strategy = factory.getStrategyFromURL(url)
-#     pages = strategy.execute(url)
-#     print(pages)
+
         
         
         
